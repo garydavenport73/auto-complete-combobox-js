@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #search-box,
+        #search-result-list {
+            box-sizing: border-box;
+            width: 200px;
+        }
+
+        #search-result-list {
+            position: absolute;
+            background-color: white;
+            border: 1px solid grey;
+            padding: 0;
+            margin: 0;
+            list-style-type: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="autocomplete-div">
+        <input type="text" id="search-box">
+        <ul id="search-result-list">
+        </ul>
+    </div>
+    <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus distinctio ullam delectus, sit ad
+        aperiam aliquid cum quam maxime laboriosam accusamus quas voluptatem quis, perspiciatis corporis. Atque ipsum
+        fugit illum!
+    </p>
+</body>
+
+<script src="dictionary.js"></script>
+
+<script>
+    let searchBox = document.getElementById('search-box');
+    let searchResultList = document.getElementById('search-result-list');
+    searchBox.addEventListener('input', generateList);
+    function generateList() {
+        let prefix = searchBox.value.trim().toLowerCase();
+        let searchResults = "";
+        if (searchBox.value.trim() === "") {
+            searchResults = "";
+        }
+        else {
+            for (let i = 0; i < dictionaryWords.length; i++) {
+                if (dictionaryWords[i].toLowerCase().indexOf(prefix) !== -1) {
+                    searchResults += "<li class='word'>" + dictionaryWords[i] + "</li>";
+                }
+            }
+        }
+        searchResultList.innerHTML = searchResults;
+        addEventListenersToListItems();
+    }
+
+    function addEventListenersToListItems() {
+        let listItems = document.getElementsByClassName('word');
+        for (let i = 0; i < listItems.length; i++) {
+            listItems[i].addEventListener("click", acceptSelection);
+        }
+    }
+    function acceptSelection(evt) {
+        console.log(evt.target.innerHTML);
+        searchBox.value = evt.target.innerHTML;
+        searchResultList.innerHTML = "";
+    }
+
+</script>
+
+</html>
